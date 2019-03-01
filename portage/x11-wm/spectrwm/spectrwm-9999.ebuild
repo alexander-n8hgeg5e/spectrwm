@@ -11,7 +11,7 @@ EGIT_REPO_URI="${CODEDIR}/${PN} ${MYGITHUB_URIBASE}${PN}.git"
 
 LICENSE="ISC"
 SLOT="0"
-KEYWORDS="amd64 x86"
+KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 RDEPEND="x11-misc/dmenu"
@@ -24,8 +24,6 @@ DEPEND="${DEPEND}
 	!x11-wm/scrotwm"
 
 S=${WORKDIR}/${P}/linux
-
-PATCHES=( "${FILESDIR}"/${P}-Makefile.patch )
 
 src_prepare() {
 	default

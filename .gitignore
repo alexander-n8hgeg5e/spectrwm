@@ -1,0 +1,9 @@
+cscope.in
+cscope.out
+cscope.po.out
+cscope.in.out
+linux/spectrwm
+linux/libswmhack.so.0.0
+linux/spectrwm.o
+linux/swm_hack.so
+linux/linux.o
