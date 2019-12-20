@@ -21,3 +21,4 @@ linux/swm_hack.so
 linux/libswmhack.so.*
 linux/version.h
 /cscope*
+linux/spectrwm

@@ -1234,11 +1234,19 @@ void	 update_ws_stack(struct workspace *);
 void	 xft_init(struct swm_region *);
 void	 _add_startup_exception(const char *, va_list);
 void	 add_startup_exception(const char *, ...);
+int      isLeft( struct ws_win *win_a, struct ws_win *win_b );
 
 RB_PROTOTYPE(binding_tree, binding, entry, binding_cmp);
 #ifndef __clang_analyzer__ /* Suppress false warnings. */
 RB_GENERATE(binding_tree, binding, entry, binding_cmp);
 #endif
+
+
+int isLeft(struct ws_win *win_a, struct ws_win *win_b){
+ return 1;	
+}
+
+
 
 void
 cursors_load(void)
@@ -4829,17 +4837,25 @@ focus(struct binding *bp, struct swm_region *r, union arg *args)
 			goto out;
 
 		winfocus = cur_focus;
+		int isleft;
 		do {
+			isleft = isLeft(winfocus,cur_focus);
 			winfocus = TAILQ_PREV(winfocus, ws_win_list, entry);
 			if (winfocus == NULL)
 				winfocus = TAILQ_LAST(wl, ws_win_list);
 			if (winfocus == cur_focus)
 				break;
-		} while (winfocus && (ICONIC(winfocus) ||
-		    winfocus->id == cur_focus->transient ||
-		    (cur_focus->transient != XCB_WINDOW_NONE &&
-		    winfocus->transient == cur_focus->transient) ||
-		    (winfocus->quirks & SWM_Q_NOFOCUSCYCLE)));
+		} while (winfocus && (
+					          ICONIC(winfocus) ||
+							  winfocus->id == cur_focus->transient || (
+								                                      cur_focus->transient != XCB_WINDOW_NONE &&
+																	  winfocus->transient == cur_focus->transient
+																	  )                                           || (
+																	                                                 winfocus->quirks & 
+																													 SWM_Q_NOFOCUSCYCLE
+																													 )                  || isleft 
+							 )
+				);
 		break;
 	case SWM_ARG_ID_FOCUSNEXT:
 		if (cur_focus == NULL)
