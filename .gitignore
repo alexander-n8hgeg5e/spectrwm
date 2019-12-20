@@ -20,3 +20,4 @@ linux/swm_hack.c
 linux/swm_hack.so
 linux/libswmhack.so.*
 linux/version.h
+/cscope*
