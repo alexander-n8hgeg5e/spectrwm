@@ -271,3 +271,4 @@ XtAppNextEvent(XtAppContext app_context, XEvent *event_return)
 	   event_return->xkey.keycode == kp_subtract))
 		event_return->xkey.send_event = 0;
 }
+// vim: set foldmethod=syntax foldlevel=0 :

@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit eutils multilib toolchain-funcs vcs-snapshot git-r3
+inherit desktop eutils multilib toolchain-funcs git-r3
 
 DESCRIPTION="Small dynamic tiling window manager for X11"
 HOMEPAGE="https://github.com/conformal/spectrwm"
@@ -37,15 +37,23 @@ src_compile() {
 }
 
 src_install() {
+	lib_major_version=$(grep -E 'major[=]' "${S}/lib/shlib_version" \
+		| sed -E 's/major[=]//')
+	lib_minor_version=$(grep -E 'minor[=]' "${S}/lib/shlib_version" \
+		| sed -E 's/minor[=]//')
 
-	emake -C linux PREFIX="${EROOT}/usr" LIBDIR="${EROOT}/usr/$(get_libdir)" \
-		DESTDIR="${D}" install
+	lib_version="${lib_major_version}.${lib_minor_version}"
 
-	cd "${WORKDIR}"/${P} || die
-
-	insinto /etc
-	doins ${PN}.conf
-	dodoc CHANGELOG.md README.md ${PN}_*.conf {initscreen,screenshot}.sh
+	dobin "${S}/linux/spectrwm"
+	dosym spectrwm /usr/bin/scrotwm
+	dolib.so "${S}/linux/libswmhack.so.${lib_version}"
+	dosym "libswmhack.so.${lib_version}"         "${EPREFIX}/usr/lib64/libswmhack.so.${lib_major_version}"
+	dosym "libswmhack.so.${lib_version}"          "${EPREFIX}/usr/lib64/libswmhack.so"
+	insinto "/etc"
+	doins  "${PN}".conf
+	doman "${PN}.1"
+	dodoc CHANGELOG.md
+#	install -m 644 spectrwm.desktop            $(DESTDIR)$(XSESSIONSDIR)
 
 	make_session_desktop ${PN} ${PN}
 
