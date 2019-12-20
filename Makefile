@@ -1,4 +1,4 @@
-.include <bsd.xconf.mk>
+include <bsd.xconf.mk>
 
 PREFIX?=/usr/local
 
@@ -13,10 +13,10 @@ CFLAGS+=-std=c99 -Wmissing-prototypes -Wall -Wextra -Wshadow -Wno-uninitialized
 #CFLAGS+=-DSWM_DENY_CLOCK_FORMAT
 CPPFLAGS+= -I${X11BASE}/include -I${X11BASE}/include/freetype2
 LDADD+=-lutil -L${X11BASE}/lib -lX11 -lX11-xcb -lxcb-util -lxcb-icccm -lxcb-keysyms -lxcb-randr -lxcb-xtest -lXft -lXcursor
-BUILDVERSION != sh "${.CURDIR}/buildver.sh"
-.if !${BUILDVERSION} == ""
+BUILDVERSION != sh "${CURDIR}/buildver.sh"
+if [[ !${BUILDVERSION} == "" ]]
 CPPFLAGS+= -DSPECTRWM_BUILDSTR=\"$(BUILDVERSION)\"
-.endif
+endif
 
 MANDIR= ${PREFIX}/man/man
 
@@ -26,7 +26,7 @@ beforeinstall:
 	ln -sf ${PROG} ${BINDIR}/scrotwm
 
 spectrwm.html: spectrwm.1
-	mandoc -Thtml ${.CURDIR}/spectrwm.1 > spectrwm.html
+	mandoc -Thtml ${CURDIR}/spectrwm.1 > spectrwm.html
 
-.include <bsd.prog.mk>
-.include <bsd.xorg.mk>
+include <bsd.prog.mk>
+include <bsd.xorg.mk>

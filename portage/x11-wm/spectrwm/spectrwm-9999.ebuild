@@ -23,7 +23,7 @@ DEPEND="${DEPEND}
 	x11-libs/xcb-util
 	!x11-wm/scrotwm"
 
-S=${WORKDIR}/${P}/linux
+
 
 src_prepare() {
 	default
@@ -35,6 +35,7 @@ src_compile() {
 }
 
 src_install() {
+	S=${WORKDIR}/${P}/linux
 	emake PREFIX="${EROOT}usr" LIBDIR="${EROOT}usr/$(get_libdir)" DESTDIR="${D}" install
 
 	cd "${WORKDIR}"/${P} || die
@@ -46,5 +47,5 @@ src_install() {
 	make_session_desktop ${PN} ${PN}
 
 	elog "Example keyboard config and helpful scripts can be found"
-	elog "in ${ROOT}usr/share/doc/${PF}"
+	elog "in ${EROOT}usr/share/doc/${PF}"
 }
