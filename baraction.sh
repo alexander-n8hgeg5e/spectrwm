@@ -1,4 +1,5 @@
 #!/bin/sh
+# Example Bar Action Script for OpenBSD-current.
 #
 
 print_date() {
@@ -16,8 +17,8 @@ print_mem() {
 }
 
 _print_cpu() {
-	typeset -R4 _1=${1} _2=${2} _3=${3} _4=${4} _5=${5}
-	echo -n "CPU:${_1}% User${_2}% Nice${_3}% Sys${_4}% Int${_5}% Idle  "
+	typeset -R4 _1=${1} _2=${2} _3=${3} _4=${4} _5=${5} _6=${6}
+	echo -n "CPU:${_1}% User${_2}% Nice${_3}% Sys${_4}% Spin${_5}% Int${_6}% Idle  "
 }
 
 print_cpu() {
@@ -66,7 +67,7 @@ print_apm() {
 				BAT_STRING="(battery unknown)"
 				;;
 			esac;
-		
+
 			FULL="${AC_STRING}${BAT_STRING}"
 			if [ "$FULL" != "" ]; then
 				echo -n "$FULL"
