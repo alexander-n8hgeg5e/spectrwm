@@ -14,38 +14,39 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-RDEPEND="x11-misc/dmenu"
+RDEPEND="
+		x11-misc/dmenu
+		!x11-wm/scrotwm
+"
 DEPEND="${DEPEND}
 	x11-libs/libX11
 	x11-libs/libXcursor
 	x11-libs/libXrandr
 	x11-libs/libXtst
 	x11-libs/xcb-util
-	!x11-wm/scrotwm"
+"
 
+PATCHES=(
+	"${FILESDIR}/${PF}-makefile.patch"
+)
 
-
-src_prepare() {
-	default
-	tc-export CC
-}
 
 src_compile() {
-	emake PREFIX="${EROOT}usr" LIBDIR="${EROOT}usr/$(get_libdir)"
+	tc-export CC PKG_CONFIG
+	emake -C linux PREFIX="${EROOT}/usr" LIBDIR="${EROOT}/usr/$(get_libdir)"
 }
 
 src_install() {
-	S=${WORKDIR}/${P}/linux
-	emake PREFIX="${EROOT}usr" LIBDIR="${EROOT}usr/$(get_libdir)" DESTDIR="${D}" install
+
+	emake -C linux PREFIX="${EROOT}/usr" LIBDIR="${EROOT}/usr/$(get_libdir)" \
+		DESTDIR="${D}" install
 
 	cd "${WORKDIR}"/${P} || die
 
 	insinto /etc
 	doins ${PN}.conf
-	dodoc ${PN}_*.conf {initscreen,screenshot}.sh
+	dodoc CHANGELOG.md README.md ${PN}_*.conf {initscreen,screenshot}.sh
 
 	make_session_desktop ${PN} ${PN}
 
-	elog "Example keyboard config and helpful scripts can be found"
-	elog "in ${EROOT}usr/share/doc/${PF}"
 }
