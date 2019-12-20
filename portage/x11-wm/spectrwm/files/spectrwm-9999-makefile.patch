@@ -1,5 +1,5 @@
 diff --git a/linux/Makefile b/linux/Makefile
-index 64bef92..0d27ae1 100644
+index 64bef92..2c2bbe8 100644
 --- a/linux/Makefile
 +++ b/linux/Makefile
 @@ -1,7 +1,9 @@
@@ -12,13 +12,14 @@ index 64bef92..0d27ae1 100644
  MANDIR       ?= $(DATAROOTDIR)/man
  XSESSIONSDIR ?= $(DATAROOTDIR)/xsessions
  
-@@ -49,23 +51,31 @@ clean:
+@@ -49,23 +51,32 @@ clean:
  install: all
  	install -m 755 -d $(DESTDIR)$(BINDIR)
  	install -m 755 -d $(DESTDIR)$(LIBDIR)
 +	install -m 755 -d $(DESTDIR)$(SYSCONFDIR)
  	install -m 755 -d $(DESTDIR)$(MANDIR)/man1
 +	install -m 755 -d $(DESTDIR)$(SYSCONFDIR)
++	install -m 755 -d $(DESTDIR)$(DOCDIR)
  	install -m 755 -d $(DESTDIR)$(XSESSIONSDIR)
  	install -m 755 spectrwm                    $(DESTDIR)$(BINDIR)
  	ln -sf spectrwm                            $(DESTDIR)$(BINDIR)/scrotwm
